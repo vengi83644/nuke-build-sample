@@ -1,0 +1,115 @@
+{
+  "gitcredentials": {
+    "username": "",
+    "password": ""
+  },
+  "dockerrepodetails": {
+    "repo": "",
+    "username": "",
+    "password": "" // Only added for this sample purpose. DO NOT commit passwords.
+  },
+  "versioning": {
+    "files": [
+      "mssql/versioned_scripts/versions.xml",
+      "postgresql/versioned_scripts/versions.xml"
+    ]
+  },
+  "projects": [
+    {
+      "name": "project1",
+      "repo": "", //Give your git link here
+      "branch": "development",
+      "buildorder": 2,
+      "buildcmd": "build.ps1 -target Publish",
+      "buildoutputs": [
+        {
+          "name": "web",
+          "sourcedir": "output/subproject1",
+          "destdir": "subproject1/web",
+          "outputdirtype": "output"
+        },
+        {
+          "name": "api",
+          "sourcedir": "output/subproject2",
+          "destdir": "subproject2/api",
+          "outputdirtype": "output"
+        },
+        {
+          "name": "jobs",
+          "sourcedir": "output/subproject3",
+          "destdir": "subproject3/jobs",
+          "outputdirtype": "output"
+        }
+      ],
+      "afterbuild": {
+        "filecopyactions": [
+          {
+            "sourcedir": "src/subproject1/configuration",
+            "destdir": "project2/configuration",
+            "outputdirtype": "output"
+          },
+          {
+            "sourcedir": "src/subproject1/configuration/db_schema.xml",
+            "destdir": "project2/configuration",
+            "outputdirtype": "output"
+          }
+        ]
+      }
+    },
+    {
+      "name": "project2",
+      "repo": "", //Give your git link here
+      "branch": "development",
+      "buildorder": 3,
+      "buildcmd": "build.ps1 -target Publish",
+      "buildoutputs": [
+        {
+          "name": "web",
+          "sourcedir": "output/subproject4",
+          "destdir": "subproject4/web",
+          "outputdirtype": "output"
+        },
+        {
+          "name": "api",
+          "sourcedir": "output/subproject5",
+          "destdir": "subproject5/api",
+          "outputdirtype": "output"
+        }
+      ]
+    },
+    {
+      "name": "project3",
+      "repo": "", //Give your git link here
+      "branch": "development",
+      "buildorder": 1,
+      "buildcmd": "build.ps1 -target Publish",
+      "buildoutputs": [
+        {
+          "name": "dataservice",
+          "sourcedir": "output/subproject6",
+          "destdir": "subproject1/dataservice",
+          "outputdirtype": "output"
+        }
+      ],
+      "afterbuild": {
+        "filecopyactions": [
+          {
+            "sourcedir": "src/scripts",
+            "destdir": "project1/src/web/wwwroot/dataservice/scripts",
+            "outputdirtype": "working"
+          },
+          {
+            "sourcedir": "src/themes",
+            "destdir": "project1/src/web/wwwroot/dataservice/themes",
+            "outputdirtype": "working"
+          },
+          {
+            "sourcedir": "src/fonts",
+            "destdir": "project1/src/web/wwwroot/dataservice/fonts",
+            "outputdirtype": "working"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+obj
+bin
+packages
+build-output
+repos
+v15/
+.vs/
+*.suo
+*.csproj.user
+*.dcproj.user
+*.pubxml.user
+*.DotSettings
+.tmp
+*.editorconfig
